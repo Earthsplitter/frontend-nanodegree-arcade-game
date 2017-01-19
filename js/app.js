@@ -30,6 +30,8 @@ var Player = function (x,y) {
     // The position of our Role
     this.x = x;
     this.y = y;
+    this.lives = 3;
+    this.score = 0;
     this.currentRole = 0;
     this.sprite = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
 };
@@ -48,6 +50,7 @@ Player.prototype.borderDetect = function () {
     if (this.y < 54) {
         this.x = 202;
         this.y = 83*5-28;
+        this.score += 10;
     }
 };
 // Detect if role is in collision with enemy
@@ -56,6 +59,11 @@ Player.prototype.collisionDetect = function () {
         if ( Math.abs(this.x - enemy.x) < 80 && Math.abs(this.y - enemy.y) < 83) {
             this.x = 202;
             this.y = 83*5-28;
+            this.lives --;
+            if (this.lives == 0) {
+                this.lives = 3;
+                this.score = 0;
+            }
         }
     },this)
 };
@@ -91,6 +99,9 @@ Player.prototype.handleInput = function (key) {
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite[this.currentRole]),this.x, this.y);
+    ctx.font="300 26px Georgia";
+    ctx.fillText("Score: "+this.score,400,70);
+    ctx.fillText("Life: "+this.lives,400,95);
 };
 
 // Initialization. Set Player and Enemies
