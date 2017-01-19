@@ -30,7 +30,8 @@ var Player = function (x,y) {
     // The position of our Role
     this.x = x;
     this.y = y;
-    this.sprite = "images/char-cat-girl.png";
+    this.currentRole = 0;
+    this.sprite = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
 };
 
 // Detect if our role is in the border
@@ -79,13 +80,17 @@ Player.prototype.handleInput = function (key) {
         case "down":
             this.y += 83;
             break;
+        case "x":
+            this.currentRole++;
+            this.currentRole %= 5;
+            break;
         default:
             break;
     }
 };
 
 Player.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite),this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite[this.currentRole]),this.x, this.y);
 };
 
 // Initialization. Set Player and Enemies
@@ -103,7 +108,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        88: 'x'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
