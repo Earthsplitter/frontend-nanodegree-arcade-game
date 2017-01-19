@@ -30,24 +30,31 @@ var Player = function (x,y) {
     // The position of our Role
     this.x = x;
     this.y = y;
+
     this.lives = 3;
     this.score = 0;
+    // current selected Role
     this.currentRole = 0;
+
     this.sprite = ['images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png'];
 };
 
 // Detect if our role is in the border
 Player.prototype.borderDetect = function () {
     if (this.x < 0) {
+        //left border
         this.x = 0;
     } else if (this.x > 404) {
+        //right border
         this.x = 404;
     }
     if (this.y > 387) {
+        //bottom
         this.y = 387;
     }
 
     if (this.y < 54) {
+        //top,means success,reset the position and increase score.
         this.x = 202;
         this.y = 83*5-28;
         this.score += 10;
